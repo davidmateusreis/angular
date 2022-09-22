@@ -1,1 +1,9 @@
 <app-data-binding></app-data-binding>
+
+<br>
+
+<app-ciclo [valorInicial]="valor" *ngIf="!deletarCiclo"></app-ciclo> <!-- property binding e ngIf é uma diretiva de renderização ou não-->
+
+<button class="btn btn-primary" (click)="mudarValor()">Mudar valor</button>
+
+<button class="btn btn-danger" (click)="destruirCiclo()">Deletar</button>
