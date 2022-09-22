@@ -1,7 +1,7 @@
 <div>
     <button class="btn btn-primary" (click)="decrementa()">-</button> <!-- event binding -->
 
-    <input type="text" [value]="valor" readonly>
+    <input type="text" [value]="valor" readonly #campoInput> <!-- declaração de variávle local para referência a algum elemento html -->
 
     <button class="btn btn-primary" (click)="incrementa()">+</button>
 </div>
