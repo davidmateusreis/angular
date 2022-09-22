@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-pre-processadores',
   templateUrl: './pre-processadores.component.html',
-  styleUrls: ['./pre-processadores.component.css']
+  styleUrls: ['./pre-processadores.component.scss']
 })
 export class PreProcessadoresComponent implements OnInit {
 

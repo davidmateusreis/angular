@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -90,15 +90,27 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": "79dc1fca-5530-49b5-a51a-5534c4cfcc7b"
+    "analytics": "79dc1fca-5530-49b5-a51a-5534c4cfcc7b",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
