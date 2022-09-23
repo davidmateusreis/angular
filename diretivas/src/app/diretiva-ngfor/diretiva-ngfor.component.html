@@ -4,3 +4,22 @@
     <li *ngFor="let curso of cursos, let i = index">{{ i + 1 }} - {{ curso }}</li>
     <!-- iteração de cada item do array -->
 </ul>
+
+<br>
+
+<h1>Removendo o * e usando template</h1>
+<!---
+<ul>
+    <li *ngFor="let curso of cursos, let i = index">{{ i + 1 }} - {{ curso }}</li>
+</ul>
+
+<ul>
+    <li template="ngFor let curso of cursos, let i = index">{{ i + 1 }} - {{ curso }}</li>
+</ul>
+
+<ul>
+    <template ngFor [ngForOf]="cursos" let-curso let-i = "index">
+        <li> {{ i + 1 }} - {{ curso }}</li>
+    <template>
+</ul>
+-->
