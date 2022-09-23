@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { DiretivaNgifComponent } from './diretiva-ngif/diretiva-ngif.component';
 import { PreProcessadoresComponent } from './pre-processadores/pre-processadores.component';
 import { TesteComponent } from './teste/teste.component';
+import { DiretivaNgswitchComponent } from './diretiva-ngswitch/diretiva-ngswitch.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DiretivaNgifComponent,
     PreProcessadoresComponent,
-    TesteComponent
+    TesteComponent,
+    DiretivaNgswitchComponent
   ],
   imports: [
     BrowserModule
