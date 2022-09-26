@@ -13,3 +13,19 @@
 <p appHighlight [defaultColor]="'grey'" [highlightColor]="'red'">
     Texto com highlight com cores customizadas.
 </p>
+
+<br>
+
+<h1>Diretiva de estrutura customizada ngElse</h1>
+
+<div *ngIf="mostrarCursos">
+    Lista de cursos!
+</div>
+
+<div *appNgElse="mostrarCursos">
+    Não existem cursos para serem listados.
+</div>
+
+<br>
+
+<button (click)="onMostrarCursos()">Mostrar ou esconder cursos.</button>
