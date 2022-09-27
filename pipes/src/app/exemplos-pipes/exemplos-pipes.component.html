@@ -1,0 +1,10 @@
+<h1>Exemplos de Pipes</h1>
+
+<p>Nome: {{ console.nome | uppercase | lowercase }}</p>
+<p>Data de Lançamento: {{ console.dataLancamento | date:'dd-MMM-yyyy' }}</p>
+<p>Preço: {{ console.preco | currency:'BRL':true }}</p>
+<p>Fabricante: {{ console.fabricante }}</p>
+<p>Site: {{ console.url }}</p>
+<p>Vendas Totais: {{ console.vendas | number }}</p>
+<br>
+<p>Console: {{ console | json }}</p>
