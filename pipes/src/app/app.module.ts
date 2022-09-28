@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { SettingsService } from './settings.service';
 import { FiltroArrayPipe } from './filtro-array.pipe';
+import { FiltroArrayImpuroPipe } from './filtro-array-impuro.pipe';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -22,7 +23,8 @@ export function locale() {
     AppComponent,
     ExemplosPipesComponent,
     CamelCasePipe,
-    FiltroArrayPipe
+    FiltroArrayPipe,
+    FiltroArrayImpuroPipe
   ],
   imports: [
     BrowserModule,
