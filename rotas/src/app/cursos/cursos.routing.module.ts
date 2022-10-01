@@ -6,9 +6,9 @@ import { CursoNaoEncontradoComponent } from './curso-nao-encontrado/curso-nao-en
 import { CursosComponent } from './cursos.component';
 
 const cursosRoutes: Routes = [
-    { path: 'naoEncontrado', component: CursoNaoEncontradoComponent },
-    { path: 'curso/:id', component: CursoDetalheComponent },
-    { path: 'cursos', component: CursosComponent },
+    { path: 'cursos/naoEncontrado', component: CursoNaoEncontradoComponent }, //tudo que for hardcoded colocar antes do dinâmico
+    { path: ':id', component: CursoDetalheComponent },
+    { path: '', component: CursosComponent }, //lazyloading 1º passo
 ];
 
 @NgModule({
