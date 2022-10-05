@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'cursos',
     loadChildren: () => import('./cursos/cursos.module').then( //lazyloading 1º passo
       mod => mod.CursosModule
-    ), canActivate: [AuthGuard], canActivateChild: [CursosGuard]
+    ), canActivate: [AuthGuard], canActivateChild: [CursosGuard], canLoad: [AuthGuard]
   },
   {
     path: 'alunos',
     loadChildren: () => import('./alunos/alunos.module').then(
       mod => mod.AlunosModule
-    ), canActivate: [AuthGuard], canActivateChild: [AlunosGuard]
+    ), canActivate: [AuthGuard], canActivateChild: [AlunosGuard], canLoad: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }
