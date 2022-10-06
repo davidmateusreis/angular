@@ -2,13 +2,19 @@
     <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" [(ngModel)]="usuario.nome"
-            required #nome>
+            required #nome="ngModel">
+        <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">
+            O nome é obrigatório!
+        </div>
     </div>
 
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" placeholder="nome@email.com" name="email"
-            [(ngModel)]="usuario.email" required email>
+            [(ngModel)]="usuario.email" required email #email="ngModel">
+        <div *ngIf="!email.valid && email.touched" class="alert alert-danger" role="alert">
+            Email inválido!
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
