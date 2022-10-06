@@ -28,7 +28,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)], //forRoot só na raíz
+  imports: [RouterModule.forRoot(routes, {useHash: true})], //forRoot só na raíz
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
