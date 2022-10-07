@@ -20,7 +20,7 @@
         <div class="col-md-3">
             <label for="cep" class="form-label">CEP</label>
             <input type="text" class="form-control" id="cep" name="cep" ngModel required #cep="ngModel"
-                (blur)="consultaCep(cep.value)">
+                (blur)="consultaCep(cep.value, f)"> <!-- fazer chamada quando o campo perder o foco -->
             <app-campo-control-erro [mostrarErro]="verificaValidTouched(cep)" msgErro="CEP é obrigatório!">
             </app-campo-control-erro>
         </div>
