@@ -20,8 +20,8 @@ export class DataFormComponent implements OnInit {
     });*/
 
     this.formulario = this.formBuilder.group({
-      nome: ['David'],
-      email: ['david@email.com']
+      nome: [null],
+      email: [null]
     });
 
   }
