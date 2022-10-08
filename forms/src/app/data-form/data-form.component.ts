@@ -43,4 +43,21 @@ export class DataFormComponent implements OnInit {
     this.formulario.reset(); //resetar os campos do formulário
   }
 
+  verificaValidTouched(campo: any) {
+    return !this.formulario.get(campo)?.valid && !!this.formulario.get(campo)?.touched;
+  }
+
+  verificarEmailInvalido() {
+    let campoEmail: any = this.formulario.get('email');
+    if (campoEmail.errors) {
+      return campoEmail.errors['email'] && campoEmail.touched;
+    }
+  }
+
+  aplicaCssErro(campo: any) {
+    return {
+      'alert alert-danger': this.verificaValidTouched(campo)
+    }
+  }
+
 }
