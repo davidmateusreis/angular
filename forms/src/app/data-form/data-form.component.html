@@ -90,6 +90,18 @@
         </div>
     </div>
 
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="checkbox">
+                <label class="checkbox-inline">
+                    <input type="checkbox" formControlName="termos"> Eu li e concordo com os termos de uso.
+                </label>
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')" msgErro="Por favor, aceite os termos!">
+                </app-campo-control-erro>
+            </div>
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="button" class="btn btn-primary" (click)="resetar()">Cancelar</button>
     <button type="button" class="btn btn-primary" (click)="setarCargo()">Cargo</button>
