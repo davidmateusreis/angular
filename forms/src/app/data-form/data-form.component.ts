@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormValidations } from '../shared/formValidations';
@@ -51,7 +51,7 @@ export class DataFormComponent implements OnInit {
 
       endereco: this.formBuilder.group({
 
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         numero: [null, Validators.required],
         complemento: [null],
         rua: [null, Validators.required],
@@ -114,6 +114,10 @@ export class DataFormComponent implements OnInit {
 
   verificaValidTouched(campo: any) {
     return !this.formulario.get(campo)?.valid && !!this.formulario.get(campo)?.touched;
+  }
+
+  verificaRequired(campo: any) {
+    return this.formulario.get(campo)?.hasError('required') && this.formulario.get(campo)?.touched;
   }
 
   verificarEmailInvalido() {
