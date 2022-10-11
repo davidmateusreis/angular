@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Estado } from '../shared/models/estado';
@@ -20,6 +20,8 @@ export class DataFormComponent implements OnInit {
   cargos!: any[];
   tecnologias!: any[];
   newsletterOptions!: any[];
+
+  frameworks = ['Angular', 'React', 'Vue', 'Sencha'];
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private dropDownService: DropdownService, private consultaCepService: ConsultaCepService) { }
 
@@ -60,7 +62,8 @@ export class DataFormComponent implements OnInit {
       cargo: [null],
       tecnologias: [null],
       newsletter: ['s'],
-      termos: [null, Validators.pattern('true')]
+      termos: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     });
 
   }
@@ -68,9 +71,19 @@ export class DataFormComponent implements OnInit {
   onSubmit() {
     console.log(this.formulario.value);
 
+    let valueSubmit = Object.assign({}, this.formulario.value); //copiando valores do formulário
+
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+        .map((v: any, i: any) => v ? this.frameworks[i] : null)
+        .filter((v: null) => v !== null)
+    });
+
+    console.log(valueSubmit);
+
     if (this.formulario.valid) {
 
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
         .pipe(map(res => res))
         .subscribe((dados: any) => {
           console.log(dados);
@@ -161,6 +174,15 @@ export class DataFormComponent implements OnInit {
 
   setarTecnologias() {
     this.formulario.get('tecnologias')?.setValue(['java', 'javascript', 'php', 'ruby']);
+  }
+
+  buildFrameworks() {
+    const values = this.frameworks.map(v => new FormControl(false));
+    return this.formBuilder.array(values);
+  }
+
+  getFrameworksControls() {
+    return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null;
   }
 
 }

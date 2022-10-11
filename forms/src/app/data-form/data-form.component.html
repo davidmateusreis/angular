@@ -75,7 +75,8 @@
         <div class="col-md-4">
             <label for="tecnologias" class="form-label">Tecnologias</label>
             <select multiple class="form-control" id="tecnologias" formControlName="tecnologias">
-                <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.descricao }}</option>
+                <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.descricao }}
+                </option>
             </select>
         </div>
         <div class="col-md-4">
@@ -83,7 +84,8 @@
             <div id="newsletter" class="row">
                 <div class="col-sm-4" *ngFor="let newsletterOption of newsletterOptions">
                     <label class="radio-inline">
-                        <input type="radio" [value]="newsletterOption.valor" formControlName="newsletter"> {{ newsletterOption.descricao }}
+                        <input type="radio" [value]="newsletterOption.valor" formControlName="newsletter"> {{
+                        newsletterOption.descricao }}
                     </label>
                 </div>
             </div>
@@ -96,8 +98,20 @@
                 <label class="checkbox-inline">
                     <input type="checkbox" formControlName="termos"> Eu li e concordo com os termos de uso.
                 </label>
-                <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')" msgErro="Por favor, aceite os termos!">
+                <app-campo-control-erro [mostrarErro]="verificaValidTouched('termos')"
+                    msgErro="Por favor, aceite os termos!">
                 </app-campo-control-erro>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="frameworks">Frameworks</label>
+            <div id="frameworks" class="row">
+                <div class="checkbox" class="col-sm-4" formArrayName="frameworks"
+                    *ngFor="let framework of getFrameworksControls(); let i = index">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" [formControlName]="i"> {{ frameworks[i] }}
+                    </label>
+                </div>
             </div>
         </div>
     </div>
