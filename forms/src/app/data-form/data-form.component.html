@@ -15,6 +15,15 @@
         </app-campo-control-erro>
     </div>
 
+    <div class="col-12">
+        <label for="confirmarEmail" class="form-label">Confirmar Email</label>
+        <input type="confirmarEmail" class="form-control" id="confirmarEmail" placeholder="nome@email.com"
+            formControlName="confirmarEmail">
+        <app-campo-control-erro [mostrarErro]="!!formulario.get('confirmarEmail')?.hasError('equalsTo')"
+            msgErro="Os Emails não são iguais!">
+        </app-campo-control-erro>
+    </div>
+
     <div class="row g-3" formGroupName="endereco">
         <div class="col-md-3">
             <label for="cep" class="form-label">CEP</label>
