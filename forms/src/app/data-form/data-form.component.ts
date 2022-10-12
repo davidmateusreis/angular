@@ -7,6 +7,7 @@ import { FormValidations } from '../shared/formValidations';
 import { Estado } from '../shared/models/estado';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
+import { VerificaEmailService } from './services/verifica-email.service';
 
 @Component({
   selector: 'app-data-form',
@@ -24,7 +25,13 @@ export class DataFormComponent implements OnInit {
 
   frameworks = ['Angular', 'React', 'Vue', 'Sencha'];
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private dropDownService: DropdownService, private consultaCepService: ConsultaCepService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private dropDownService: DropdownService,
+    private consultaCepService: ConsultaCepService,
+    private verificarEmailService: VerificaEmailService
+  ) { }
 
   ngOnInit(): void {
 
@@ -35,6 +42,8 @@ export class DataFormComponent implements OnInit {
     this.tecnologias = this.dropDownService.getTecnologias();
 
     this.newsletterOptions = this.dropDownService.getNewsletter();
+
+    //this.verificarEmailService.verificarEmail('david@email.com').subscribe();
 
     /*this.dropDownService.getEstados().subscribe(dados => {
       this.estados = dados; console.log(dados)
@@ -47,7 +56,7 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email], this.validarEmail.bind(this)], //validação assíncrona
       confirmarEmail: [null, [FormValidations.equalsTo('email')]],
 
       endereco: this.formBuilder.group({
@@ -189,6 +198,11 @@ export class DataFormComponent implements OnInit {
 
   getFrameworksControls() {
     return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null;
+  }
+
+  validarEmail(formControl: FormControl) {
+    return this.verificarEmailService.verificarEmail(formControl.value)
+      .pipe(map(emailExiste => emailExiste ? { emailInvalido: true } : null));
   }
 
 }
