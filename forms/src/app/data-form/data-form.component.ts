@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { empty, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { FormValidations } from '../shared/formValidations';
 import { Estado } from '../shared/models/estado';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -14,10 +15,8 @@ import { VerificaEmailService } from './services/verifica-email.service';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario!: FormGroup;
-  //estados!: Estado[];
   estados!: Observable<Estado[]>;
   cargos!: any[];
   tecnologias!: any[];
@@ -31,9 +30,11 @@ export class DataFormComponent implements OnInit {
     private dropDownService: DropdownService,
     private consultaCepService: ConsultaCepService,
     private verificarEmailService: VerificaEmailService
-  ) { }
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
 
     this.estados = this.dropDownService.getEstados();
 
@@ -42,17 +43,6 @@ export class DataFormComponent implements OnInit {
     this.tecnologias = this.dropDownService.getTecnologias();
 
     this.newsletterOptions = this.dropDownService.getNewsletter();
-
-    //this.verificarEmailService.verificarEmail('david@email.com').subscribe();
-
-    /*this.dropDownService.getEstados().subscribe(dados => {
-      this.estados = dados; console.log(dados)
-    });*/
-
-    /*this.formulario = new FormGroup({
-      nome: new FormControl('David'),
-      email: new FormControl('david@email.com')
-    });*/
 
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
@@ -88,7 +78,7 @@ export class DataFormComponent implements OnInit {
       .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
   }
 
-  onSubmit() {
+  submit() {
     console.log(this.formulario.value);
 
     let valueSubmit = Object.assign({}, this.formulario.value); //copiando valores do formulário
@@ -101,55 +91,12 @@ export class DataFormComponent implements OnInit {
 
     console.log(valueSubmit);
 
-    if (this.formulario.valid) {
-
-      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
-        .pipe(map(res => res))
-        .subscribe((dados: any) => {
-          console.log(dados);
-          this.resetar();
-        });
-
-    } else {
-      console.log('Formulário Inválido');
-      this.verificaValidacoesForm(this.formulario);
-    }
-  }
-
-  verificaValidacoesForm(formGroup: FormGroup) { //recursividade
-    Object.keys(formGroup.controls).forEach(campo => {
-      console.log(campo);
-      const controle = formGroup.get(campo);
-      controle?.markAsTouched();
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesForm(controle);
-      }
-    });
-  }
-
-  resetar() {
-    this.formulario.reset(); //resetar os campos do formulário
-  }
-
-  verificaValidTouched(campo: any) {
-    return !this.formulario.get(campo)?.valid && !!this.formulario.get(campo)?.touched;
-  }
-
-  verificaRequired(campo: any) {
-    return this.formulario.get(campo)?.hasError('required') && this.formulario.get(campo)?.touched;
-  }
-
-  verificarEmailInvalido() {
-    let campoEmail: any = this.formulario.get('email');
-    if (campoEmail.errors) {
-      return campoEmail.errors['email'] && campoEmail.touched;
-    }
-  }
-
-  aplicaCssErro(campo: any) {
-    return {
-      'alert alert-danger': this.verificaValidTouched(campo)
-    }
+    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+      .pipe(map(res => res))
+      .subscribe((dados: any) => {
+        console.log(dados);
+        this.resetar();
+      });
   }
 
   consultaCep() {
