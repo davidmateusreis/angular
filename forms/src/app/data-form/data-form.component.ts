@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { empty, Observable } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { FormValidations } from '../shared/formValidations';
 import { Estado } from '../shared/models/estado';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -77,6 +77,15 @@ export class DataFormComponent implements OnInit {
       frameworks: this.buildFrameworks()
     });
 
+    this.formulario.get('endereco.cep')?.statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        tap(value => console.log('status CEP', value)),
+        switchMap(status => status === 'VALID' ?
+          this.consultaCepService.consultaCep(this.formulario.get('endereco.cep')?.value) : empty()
+        )
+      )
+      .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
   }
 
   onSubmit() {
