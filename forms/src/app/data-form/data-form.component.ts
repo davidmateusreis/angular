@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { empty, Observable } from 'rxjs';
+import { empty } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { FormValidations } from '../shared/formValidations';
+import { Cidade } from '../shared/models/cidade';
 import { Estado } from '../shared/models/estado';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -17,7 +18,8 @@ import { VerificaEmailService } from './services/verifica-email.service';
 })
 export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  estados!: Observable<Estado[]>;
+  estados!: Estado[];
+  cidades!: Cidade[];
   cargos!: any[];
   tecnologias!: any[];
   newsletterOptions!: any[];
@@ -36,7 +38,9 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
   override ngOnInit(): void {
 
-    this.estados = this.dropDownService.getEstados();
+    //this.estados = this.dropDownService.getEstados();
+    this.dropDownService.getEstados()
+      .subscribe(dados => this.estados = dados);
 
     this.cargos = this.dropDownService.getCargos();
 
@@ -76,6 +80,18 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
         )
       )
       .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+
+    //this.dropDownService.getCidades(8).subscribe(console.log);
+
+    this.formulario.get('endereco.estado')?.valueChanges
+      .pipe(
+        tap(estado => console.log('Novo estado', estado)),
+        map(estado => this.estados.filter(e => e.sigla === estado)),
+        map(estados => estados && estados.length > 0 ? estados[0].id : empty()),
+        switchMap((estadoId: any) => this.dropDownService.getCidades(estadoId)),
+        tap(console.log)
+      )
+      .subscribe(cidades => this.cidades = cidades);
   }
 
   submit() {
