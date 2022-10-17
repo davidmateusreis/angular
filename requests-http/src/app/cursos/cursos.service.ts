@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Curso } from '../models/curso';
 import { environment } from 'src/environments/environment';
-import { delay, tap } from 'rxjs';
+import { delay, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,9 @@ export class CursosService {
         delay(2000),
         tap(console.log)
       );
+  }
+
+  create(curso: any) {
+    return this.http.post(this.API, curso).pipe(take(1)); //exceto se o backend for reativo
   }
 }
