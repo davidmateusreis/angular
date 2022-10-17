@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { CursosService } from '../cursos.service';
 
@@ -18,12 +20,44 @@ export class CursosFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cursosService: CursosService,
     private alertModalService: AlertModalService,
-    private location: Location) { }
+    private location: Location,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
+    /*this.route.params.subscribe(
+      (params: any) => {
+        const id = params['id'];
+        console.log(id);
+        const curso$ = this.cursosService.loadById(id); //curso$ = observable
+        curso$.subscribe(curso => {
+          this.updateForm(curso);
+        });
+      }
+    );*/
+
+    this.route.params //no caso das rotas, o angular faz unsubscribe automatico
+      .pipe(
+        map((params: any) => params['id']),
+        switchMap(id => this.cursosService.loadById(id)), //cancela os requests anteriores e retorna o valor do último
+        //switchMap(cursos => obterAulas)
+      )
+      .subscribe(curso => this.updateForm(curso));
+
+    //no concatMap a ordem do request importa
+    //no mergeMap a ordem do request não importa
+    //no exhaustMap em casos de login
+
     this.form = this.formBuilder.group({
+      id: [null],
       nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+    });
+  }
+
+  updateForm(curso: any) {
+    this.form.patchValue({
+      id: curso.id,
+      nome: curso.nome
     });
   }
 
