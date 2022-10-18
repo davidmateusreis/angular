@@ -26,7 +26,19 @@
     },
     {
       "id": 7,
-      "nome": "Estrutura de Dados"
+      "nome": "React"
+    },
+    {
+      "id": 8,
+      "nome": "Vue"
+    },
+    {
+      "id": 9,
+      "nome": "NodeJs"
+    },
+    {
+      "id": 10,
+      "nome": "Ruby"
     }
   ]
 }

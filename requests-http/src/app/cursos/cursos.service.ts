@@ -25,7 +25,18 @@ export class CursosService {
     return this.http.get<Curso>(`${this.API}/${id}`).pipe(take(1)); //faz um único request e finaliza a inscrição
   }
 
-  create(curso: any) {
+  private create(curso: any) {
     return this.http.post(this.API, curso).pipe(take(1)); //exceto se o backend for reativo
+  }
+
+  private update(curso: any) {
+    return this.http.put(`${this.API}/${curso.id}`, curso).pipe(take(1));
+  }
+
+  save(curso: any) {
+    if (curso.id) {
+      return this.update(curso);
+    }
+    return this.create(curso);
   }
 }

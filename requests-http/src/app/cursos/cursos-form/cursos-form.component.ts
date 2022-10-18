@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { CursosService } from '../cursos.service';
 
@@ -72,14 +71,40 @@ export class CursosFormComponent implements OnInit {
     console.log(this.form.value);
     if (this.form.valid) {
       console.log('submit');
-      this.cursosService.create(this.form.value).subscribe(
+
+      let msgSuccess = 'Curso criado com sucesso!';
+      let msgError = 'Erro ao criar curso, tente novamente.';
+      if (this.form.value.id) {
+        msgSuccess = 'Curso atualizado com sucesso!';
+        msgError = 'Erro ao atualizar curso, tente novamente.';
+      }
+
+      this.cursosService.save(this.form.value).subscribe(
         success => {
-          this.alertModalService.showAlertSuccess('Curso criado com sucesso!');
-          this.location.back(); //volta para rota anterior a rota do formulário
+          this.alertModalService.showAlertSuccess(msgSuccess);
+          this.location.back();
         },
-        error => this.alertModalService.showAlertDanger('Erro ao criar curso, tente novamente.'),
-        () => console.log('request completo')
+        error => this.alertModalService.showAlertDanger(msgError)
       );
+      /*if (this.form.value.id) {
+        this.cursosService.update(this.form.value).subscribe(
+          success => {
+            this.alertModalService.showAlertSuccess('Curso atualizado com sucesso!');
+            this.location.back();
+          },
+          error => this.alertModalService.showAlertDanger('Erro ao atualizar curso, tente novamente.'),
+          () => console.log('update completo')
+        )
+      } else {
+        this.cursosService.create(this.form.value).subscribe(
+          success => {
+            this.alertModalService.showAlertSuccess('Curso criado com sucesso!');
+            this.location.back(); //volta para rota anterior a rota do formulário
+          },
+          error => this.alertModalService.showAlertDanger('Erro ao criar curso, tente novamente.'),
+          () => console.log('request completo')
+        );
+      }*/
     }
   }
 
