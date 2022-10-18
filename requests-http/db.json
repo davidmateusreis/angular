@@ -7,22 +7,6 @@
     {
       "nome": "Java",
       "id": 2
-    },
-    {
-      "nome": "Material",
-      "id": 3
-    },
-    {
-      "nome": "Spring",
-      "id": 4
-    },
-    {
-      "nome": "MySQL",
-      "id": 5
-    },
-    {
-      "nome": "JavaScript",
-      "id": 6
     }
   ]
 }
