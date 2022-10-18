@@ -23,22 +23,6 @@
     {
       "nome": "JavaScript",
       "id": 6
-    },
-    {
-      "id": 7,
-      "nome": "React"
-    },
-    {
-      "id": 8,
-      "nome": "Vue"
-    },
-    {
-      "id": 9,
-      "nome": "NodeJs"
-    },
-    {
-      "id": 10,
-      "nome": "Ruby"
     }
   ]
 }

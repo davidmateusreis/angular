@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, empty, Observable, Subject, switchMap } from 'rxjs';
 import { Curso } from 'src/app/models/curso';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
@@ -18,13 +19,18 @@ export class CursosListaComponent implements OnInit {
   cursos$!: Observable<Curso[]>; //observable
   error$ = new Subject<boolean>(); //emite valores
 
+  cursoSelecionado!: Curso;
+
   //bsModalRef!: BsModalRef; //modal
+  deleteModalRef!: BsModalRef;
+  @ViewChild('deleteModal') deleteModal: any;
 
   constructor(
     private cursosService: CursosService,
     private alertModalService: AlertModalService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private bsModalService: BsModalService) { }
 
   ngOnInit(): void {
     //this.cursosService.list()
@@ -65,6 +71,29 @@ export class CursosListaComponent implements OnInit {
 
   onEdit(id: any) {
     this.router.navigate(['editar', id], { relativeTo: this.route });
+  }
+
+  onDelete(curso: Curso) {
+    this.cursoSelecionado = curso;
+    this.deleteModalRef = this.bsModalService.show(this.deleteModal, { class: 'modal-sm' });
+  }
+
+  onConfirmDelete() {
+    this.cursosService.remove(this.cursoSelecionado.id)
+      .subscribe(
+        success => {
+          this.onRefresh();
+          this.deleteModalRef.hide();
+        },
+        error => {
+          this.alertModalService.showAlertDanger('Erro ao remover curso. Tente novamente mais tarde.')
+          this.deleteModalRef.hide();
+        }
+      );
+  }
+
+  onDeclineDelete() {
+    this.deleteModalRef.hide();
   }
 
 }
