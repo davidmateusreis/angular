@@ -22,7 +22,7 @@ export class CursosService {
   }
 
   loadById(id: any) {
-    return this.http.get(`${this.API}/${id}`).pipe(take(1)); //faz um único request e finaliza a inscrição
+    return this.http.get<Curso>(`${this.API}/${id}`).pipe(take(1)); //faz um único request e finaliza a inscrição
   }
 
   create(curso: any) {

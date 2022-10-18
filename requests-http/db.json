@@ -23,6 +23,10 @@
     {
       "nome": "JavaScript",
       "id": 6
+    },
+    {
+      "id": 7,
+      "nome": "Estrutura de Dados"
     }
   ]
 }

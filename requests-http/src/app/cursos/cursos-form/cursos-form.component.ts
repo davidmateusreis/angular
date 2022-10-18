@@ -36,30 +36,32 @@ export class CursosFormComponent implements OnInit {
       }
     );*/
 
-    this.route.params //no caso das rotas, o angular faz unsubscribe automatico
-      .pipe(
-        map((params: any) => params['id']),
-        switchMap(id => this.cursosService.loadById(id)), //cancela os requests anteriores e retorna o valor do último
-        //switchMap(cursos => obterAulas)
-      )
-      .subscribe(curso => this.updateForm(curso));
+    //this.route.params //no caso das rotas, o angular faz unsubscribe automatico
+    //  .pipe(
+    //    map((params: any) => params['id']),
+    //    switchMap(id => this.cursosService.loadById(id)), //cancela os requests anteriores e retorna o valor do último
+    //    //switchMap(cursos => obterAulas)
+    //  )
+    //  .subscribe(curso => this.updateForm(curso));
 
     //no concatMap a ordem do request importa
     //no mergeMap a ordem do request não importa
     //no exhaustMap em casos de login
 
+    const curso = this.route.snapshot.data['curso'];
+
     this.form = this.formBuilder.group({
-      id: [null],
-      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     });
   }
 
-  updateForm(curso: any) {
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    });
-  }
+  //updateForm(curso: any) {
+  //  this.form.patchValue({
+  //    id: curso.id,
+  //    nome: curso.nome
+  //  });
+  //}
 
   hasError(field: string) {
     return this.form.get(field)?.errors;
