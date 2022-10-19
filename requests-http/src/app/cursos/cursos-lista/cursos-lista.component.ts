@@ -5,6 +5,7 @@ import { catchError, EMPTY, empty, Observable, Subject, switchMap, take } from '
 import { Curso } from 'src/app/models/curso';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { CursosService } from '../cursos.service';
+import { Cursos2Service } from '../cursos2.service';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -26,7 +27,7 @@ export class CursosListaComponent implements OnInit {
   @ViewChild('deleteModal') deleteModal: any;
 
   constructor(
-    private cursosService: CursosService,
+    private cursosService: Cursos2Service,
     private alertModalService: AlertModalService,
     private router: Router,
     private route: ActivatedRoute,
