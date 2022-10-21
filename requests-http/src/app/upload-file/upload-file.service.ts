@@ -21,4 +21,45 @@ export class UploadFileService {
       reportProgress: true
     });
   }
+
+  download(url: string) {
+    return this.http.get(url, {
+      responseType: 'blob' as 'json'
+      // reportProgress
+      // content-length
+    });
+  }
+
+  handleFile(res: any, fileName: string) {
+
+    const file = new Blob([res], { // criação e tipo do arquivo
+      type: res.type
+    });
+
+    // if (window.navigator && window.navigator.msSaveOrOpenBlob) { // internet explorer
+    //   window.navigator.msSaveOrOpenBlob(file);
+    //   return;
+    // }
+
+    const blob = window.URL.createObjectURL(file);
+
+    const link = document.createElement('a');
+    link.href = blob;
+    link.download = fileName;
+
+    //link.click(); // só funciona no google chrome
+    link.dispatchEvent(new MouseEvent('click', { // firefox
+      bubbles: true,
+      cancelable: true,
+      view: window
+    }));
+
+    setTimeout(() => { //firefox
+      window.URL.revokeObjectURL(blob);
+      link.remove();
+    }, 100);
+
+    // window.URL.revokeObjectURL(blob); //google chrome
+    // link.remove();
+  }
 }
